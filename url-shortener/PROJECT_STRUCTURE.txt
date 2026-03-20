@@ -1,0 +1,153 @@
+url-shortener/
+│
+├── src/
+│   ├── main/
+│   │   ├── java/
+│   │   │   └── com/
+│   │   │       └── urlshortener/
+│   │   │           ├── Application.java                    ✅ Main class
+│   │   │           │
+│   │   │           ├── controller/
+│   │   │           │   └── URLController.java              ✅ REST API
+│   │   │           │
+│   │   │           ├── service/
+│   │   │           │   ├── URLShortenerService.java        ✅ Core logic
+│   │   │           │   ├── AnalyticsService.java           ✅ Analytics
+│   │   │           │   └── GeoIPService.java               ✅ GeoIP
+│   │   │           │
+│   │   │           ├── entity/
+│   │   │           │   ├── URLEntity.java                  ✅ URL entity
+│   │   │           │   └── ClickAnalytics.java             ✅ Analytics entity
+│   │   │           │
+│   │   │           ├── repository/
+│   │   │           │   ├── URLRepository.java              ✅ URL repo
+│   │   │           │   └── ClickAnalyticsRepository.java   ✅ Analytics repo
+│   │   │           │
+│   │   │           ├── dto/
+│   │   │           │   ├── AnalyticsData.java              ✅ Analytics DTO
+│   │   │           │   └── CreateURLRequest.java           ✅ Request DTO
+│   │   │           │
+│   │   │           ├── security/
+│   │   │           │   └── RateLimiter.java                ✅ Rate limiting
+│   │   │           │
+│   │   │           └── config/
+│   │   │               ├── RedisConfig.java                (Optional)
+│   │   │               ├── KafkaConfig.java                (Optional)
+│   │   │               └── SecurityConfig.java             (Optional)
+│   │   │
+│   │   └── resources/
+│   │       ├── application.yml                             ✅ Configuration
+│   │       ├── application-dev.yml                         (Optional)
+│   │       ├── application-prod.yml                        (Optional)
+│   │       └── schema.sql                                  ✅ DB schema
+│   │
+│   └── test/
+│       └── java/
+│           └── com/
+│               └── urlshortener/
+│                   ├── URLShortenerServiceTest.java        (Optional)
+│                   ├── URLControllerTest.java              (Optional)
+│                   └── AnalyticsServiceTest.java           (Optional)
+│
+├── data/
+│   └── GeoLite2-City.mmdb                                  ⚠️ Download needed
+│
+├── logs/                                                   (Auto-created)
+│   └── url-shortener.log
+│
+├── target/                                                 (Build output)
+│   └── url-shortener-1.0.0.jar
+│
+├── docker-compose.yml                                      ✅ Docker setup
+├── Dockerfile                                              ✅ Container image
+├── nginx.conf                                              ✅ Nginx config
+├── pom.xml                                                 ✅ Maven deps
+│
+├── .dockerignore                                           ✅ Docker ignore
+├── .gitignore                                              ✅ Git ignore
+├── .env                                                    ⚠️ Create this
+│
+├── Makefile                                                ✅ Commands
+├── README.md                                               ✅ Setup guide
+├── ARCHITECTURE.md                                         ✅ Architecture
+├── DEPLOYMENT_CHECKLIST.md                                 ✅ Checklist
+└── PROJECT_STRUCTURE.txt                                   ✅ This file
+
+═══════════════════════════════════════════════════════════════════
+
+LEGEND:
+  ✅ = File created and ready
+  ⚠️ = Need to create/configure
+  (Optional) = Can add later for enhancement
+
+═══════════════════════════════════════════════════════════════════
+
+QUICK START:
+
+1. Download GeoIP database:
+   - Register at https://dev.maxmind.com/geoip/geoip2/geolite2/
+   - Download GeoLite2-City.mmdb
+   - Place in: data/GeoLite2-City.mmdb
+
+2. Create .env file:
+   DB_PASSWORD=your_secure_password
+   REDIS_PASSWORD=your_redis_password
+
+3. Build and run:
+   make build
+   make run
+
+4. Test:
+   curl -X POST http://localhost/api/shorten \
+     -H "Content-Type: application/json" \
+     -d '{"url":"https://example.com"}'
+
+═══════════════════════════════════════════════════════════════════
+
+FILE SIZES (Approximate):
+  Application.java              ~   2 KB
+  URLShortenerService.java      ~   8 KB
+  URLController.java            ~  10 KB
+  AnalyticsService.java         ~   9 KB
+  GeoIPService.java             ~   4 KB
+  RateLimiter.java              ~   3 KB
+  URLEntity.java                ~   3 KB
+  ClickAnalytics.java           ~   5 KB  ✅ VERIFIED
+  AnalyticsData.java            ~  10 KB
+  CreateURLRequest.java         ~   2 KB
+  Repositories.java             ~   4 KB
+  application.yml               ~   3 KB
+  schema.sql                    ~   4 KB
+  docker-compose.yml            ~   5 KB
+  nginx.conf                    ~   6 KB
+  pom.xml                       ~   4 KB
+
+  TOTAL JAVA CODE:             ~ 60 KB
+  TOTAL PROJECT:               ~ 90 KB (excluding GeoIP DB)
+
+═══════════════════════════════════════════════════════════════════
+
+DEPENDENCIES (pom.xml):
+  Spring Boot                   3.2.0
+  PostgreSQL Driver            Latest
+  Redis (Lettuce)              Latest
+  Kafka                        Latest
+  Bucket4j (Rate Limit)        8.10.1
+  MaxMind GeoIP2               4.1.0
+  UserAgentUtils               1.21
+  Micrometer (Prometheus)      Latest
+
+═══════════════════════════════════════════════════════════════════
+
+PORTS USED:
+  8080  - Application
+  5432  - PostgreSQL
+  6379  - Redis
+  9092  - Kafka
+  2181  - Zookeeper
+  80    - Nginx HTTP
+  443   - Nginx HTTPS
+  9090  - Prometheus
+  3000  - Grafana
+
+═══════════════════════════════════════════════════════════════════
