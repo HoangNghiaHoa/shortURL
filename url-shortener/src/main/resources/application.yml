@@ -4,7 +4,7 @@ spring:
 
   # Database Configuration (PostgreSQL)
   datasource:
-    url: jdbc:postgresql://localhost:5432/urlshortener
+    url: jdbc:postgresql://url-shortener-db:5432/urlshortener
     username: postgres
     password: ${DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
@@ -45,7 +45,7 @@ spring:
 
   # Kafka Configuration
   kafka:
-    bootstrap-servers: localhost:9092
+    bootstrap-servers: url-shortener-kafka:9092
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer

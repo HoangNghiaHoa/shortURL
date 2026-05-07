@@ -134,6 +134,8 @@ public class AnalyticsData implements Serializable {
 
     @JsonProperty("utm_term")
     private String utmTerm;
+    @JsonProperty("source")
+    private String source; // "QR_CODE" hoặc "DIRECT"
 
     @JsonProperty("utm_content")
     private String utmContent;
@@ -491,6 +493,13 @@ public class AnalyticsData implements Serializable {
 
     public void setViewportHeight(Integer viewportHeight) {
         this.viewportHeight = viewportHeight;
+    }
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
     }
 
     @Override

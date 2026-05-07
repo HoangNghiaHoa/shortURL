@@ -25,6 +25,7 @@ public class GeoIPService {
                 || ip.startsWith("192.168.")
                 || ip.startsWith("10.")
                 || ip.startsWith("172."); // ⭐ docker bridge
+
     }
 
     private DatabaseReader dbReader;

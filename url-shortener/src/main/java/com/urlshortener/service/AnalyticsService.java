@@ -89,6 +89,7 @@ public class AnalyticsService {
             analytics.setUserAgent(data.getUserAgent());
             analytics.setReferer(data.getReferer());
             analytics.setLanguage(data.getAcceptLanguage());
+            analytics.setAccessSource(data.getSource());
 
             clickAnalyticsRepository.save(analytics);
 
@@ -164,6 +165,7 @@ public class AnalyticsService {
             );
         }
 
+
         // Increment by hour
         String hour = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH")
                 .withZone(ZoneId.systemDefault())
@@ -174,6 +176,13 @@ public class AnalyticsService {
                 hour,
                 1
         );
+        if (data.getSource() != null) {
+            redisTemplate.opsForHash().increment(
+                    key + ":source",
+                    data.getSource(),
+                    1
+            );
+        }
 
         // Set TTL 30 days
         redisTemplate.expire(key, 30, TimeUnit.DAYS);
@@ -181,6 +190,7 @@ public class AnalyticsService {
         redisTemplate.expire(key + ":browser", 30, TimeUnit.DAYS);
         redisTemplate.expire(key + ":device", 30, TimeUnit.DAYS);
         redisTemplate.expire(key + ":hourly", 30, TimeUnit.DAYS);
+        redisTemplate.expire(key + ":source", 30, TimeUnit.DAYS);
     }
 
     /**
@@ -219,6 +229,9 @@ public class AnalyticsService {
         String uniqueKey = key + ":unique";
         Long uniqueVisitors = redisTemplate.opsForHyperLogLog().size(uniqueKey);
         stats.put("uniqueVisitors", uniqueVisitors != null ? uniqueVisitors : 0);
+        // Thêm: Lấy stats theo Source từ Redis
+        Map<Object, Object> sourceStats = redisTemplate.opsForHash().entries(key + ":source");
+        stats.put("bySource", convertToSortedList(sourceStats));
 
         return stats;
     }

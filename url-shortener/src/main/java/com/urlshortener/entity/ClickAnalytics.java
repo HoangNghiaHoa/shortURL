@@ -75,6 +75,9 @@ public class ClickAnalytics implements Serializable {
 
     @Column(name = "session_id", length = 100)
     private String sessionId;
+    // Thêm vào ClickAnalytics.java
+    @Column(name = "access_source", length = 20)
+    private String accessSource; // Giá trị: "QR_CODE" hoặc "DIRECT"
 
     // ==================== Constructors ====================
     public ClickAnalytics() {
@@ -222,6 +225,8 @@ public class ClickAnalytics implements Serializable {
     public void setSessionId(String sessionId) {
         this.sessionId = sessionId;
     }
+    public String getAccessSource() {return accessSource;}
+    public void setAccessSource(String accessSource) {this.accessSource = accessSource;}
 
     // ==================== toString ====================
     @Override
@@ -236,6 +241,7 @@ public class ClickAnalytics implements Serializable {
                 ", browser='" + browser + '\'' +
                 ", os='" + operatingSystem + '\'' +
                 ", deviceType='" + deviceType + '\'' +
+
                 '}';
     }
 

@@ -2,9 +2,11 @@ package com.urlshortener.repository;
 
 import com.urlshortener.entity.ClickAnalytics;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -162,10 +164,24 @@ public interface ClickAnalyticsRepository extends JpaRepository<ClickAnalytics, 
             @Param("endTime") Long endTime
     );
 
+
     /**
      * Xóa analytics data cũ (retention policy)
      */
     @Query(value = "DELETE FROM click_analytics WHERE timestamp < :cutoffTime",
             nativeQuery = true)
     void deleteOldAnalytics(@Param("cutoffTime") Long cutoffTime);
+
+    /**
+     * Thống kê clicks theo Source (QR_CODE vs DIRECT)
+     */
+    @Query("SELECT c.accessSource, COUNT(c) as count FROM ClickAnalytics c " +
+            "WHERE c.shortCode = :shortCode AND c.accessSource IS NOT NULL " +
+            "GROUP BY c.accessSource ORDER BY count DESC")
+    List<Object[]> getSourceStatsByShortCode(@Param("shortCode") String shortCode);
+
+    @Modifying(clearAutomatically = true) // Tự động làm mới bộ nhớ đệm sau khi update
+    @Transactional // Đảm bảo tính toàn vẹn dữ liệu
+    @Query("UPDATE ClickAnalytics c SET c.shortCode = :newAlias WHERE c.shortCode = :oldShortCode")
+    void updateShortCodeForClicks(@Param("oldShortCode") String oldShortCode, @Param("newAlias") String newAlias);
 }

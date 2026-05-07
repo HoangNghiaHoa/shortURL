@@ -90,14 +90,14 @@ CREATE INDEX idx_analytics_code_time ON click_analytics(short_code, timestamp DE
 CREATE TABLE users (
                        id BIGSERIAL PRIMARY KEY,
                        email VARCHAR(255) UNIQUE NOT NULL,
-                       api_key VARCHAR(64) UNIQUE,
-                       created_at BIGINT NOT NULL,
-                       plan_type VARCHAR(20) DEFAULT 'free',
+                       password TEXT NOT NULL,         -- Thêm cột này
+                       full_name VARCHAR(255),         -- Thêm cột này (Postgres nên dùng snake_case)
+                       role VARCHAR(50) NOT NULL DEFAULT 'ROLE_USER', -- Thêm cột này
+                       created_at BIGINT,              -- Giữ lại nếu muốn
                        is_active BOOLEAN DEFAULT TRUE
 );
 
 CREATE INDEX idx_users_email ON users(email);
-CREATE INDEX idx_users_api_key ON users(api_key);
 
 -- Function: Update click count
 CREATE OR REPLACE FUNCTION update_click_count()

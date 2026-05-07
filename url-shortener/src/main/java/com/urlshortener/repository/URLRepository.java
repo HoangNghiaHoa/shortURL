@@ -68,4 +68,7 @@ public interface URLRepository extends JpaRepository<URLEntity, Long> {
      * Kiểm tra short code có tồn tại không
      */
     boolean existsByShortCode(String shortCode);
+
+    List<URLEntity> findByUserIdOrderByCreatedAtDesc(Long userId);
+
 }

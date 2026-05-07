@@ -41,7 +41,7 @@ public class URLEntity implements Serializable {
      * Mã rút gọn 6 ký tự (a-zA-Z0-9)
      * Ví dụ: "Xs2dF3"
      */
-    @Column(name = "short_code", unique = true, nullable = false, length = 6)
+    @Column(name = "short_code", unique = true, nullable = false, length = 20)
     private String shortCode;
 
     /**
@@ -160,6 +160,8 @@ public class URLEntity implements Serializable {
      */
     @Column(name = "metadata", columnDefinition = "TEXT")
     private String metadata;
+    @Column(columnDefinition = "TEXT")
+    private String qrConfig;
 
     // ==================== Constructors ====================
 
@@ -372,6 +374,9 @@ public class URLEntity implements Serializable {
 
     public void setMetadata(String metadata) {
         this.metadata = metadata;
+    }
+    public void setQrConfig(String qrConfig) {
+        this.qrConfig = qrConfig;
     }
 
     // ==================== equals & hashCode ====================
