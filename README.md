@@ -407,13 +407,4 @@ docker cp url-shortener-redis:/data/dump.rdb ./redis-backup.rdb
 ## 📄 License
 
 MIT License - xem file LICENSE để biết thêm chi tiết
-
-## 🤝 Contributing
-
-Pull requests are welcome! Vui lòng tạo issue trước khi submit PR lớn.
-
-## 📧 Support
-
-- Email: support@yourdomain.com
-- Issues: https://github.com/your-repo/issues
-- Docs: https://docs.yourdomain.com
+ 
